@@ -1,5 +1,6 @@
 ---
 plugin: amazon.aws.aws_ec2
+boto_profile: "{{ lookup('env', 'AWS_PROFILE') | default('aws_profile', true) }}"
 
 regions:
   - us-west-2
@@ -19,7 +20,7 @@ leading_separator: "no"
 cache: "yes"
 
 filters:
-  tag:BaseDN: "devnet13.edge.company.private"
+  tag:BaseDN: "k1dev.edge.karrierone.private"
 
 hostnames:
   - instance-id

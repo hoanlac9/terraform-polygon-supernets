@@ -1,6 +1,7 @@
 ---
-deployment_name: "{{ clean_deploy_title }}"
-base_dn: "{{ deployment_name }}.edge.polygon.private"
+deployment_name: "k1dev"
+company_name: "karrierone"
+base_dn: "{{ deployment_name }}.edge.{{ company_name }}.private"
 
 node_name: "{{ hostvars[inventory_hostname].tags.Hostname }}"
 edge_domain: "{{ base_dn }}"

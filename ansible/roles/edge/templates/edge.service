@@ -13,7 +13,7 @@ ExecStart=polygon-edge server --data-dir {{ edge_home_dir }} \
     --json-rpc-batch-request-limit 999 \
     --libp2p 0.0.0.0:{{ edge_p2p_port }} \
     --jsonrpc 0.0.0.0:{{ edge_jsonrpc_port }} \
-    --prometheus 127.0.0.1:{{ edge_prometheus_port }} \
+    --prometheus 0.0.0.0:{{ edge_prometheus_port }} \
     --max-slots 276480 \
     --max-enqueued 276480 \
     --log-level INFO \

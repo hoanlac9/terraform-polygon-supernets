@@ -98,8 +98,7 @@ main() {
                  --stake-manager $(cat genesis.json | jq -r '.params.engine.polybft.bridge.stakeManagerAddr') \
                  --finalize-genesis --enable-staking \
                  --json-rpc {{ rootchain_json_rpc }}
-
-    tar czf {{ base_dn }}.tar.gz *.json *.private
+                 
     popd
 }
 

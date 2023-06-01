@@ -40,6 +40,11 @@
         src: validatorlist.txt
         dest: /etc/edge/validatorlist.txt
         mode: 0700
+    - name: Produce edge non-validator list
+      ansible.builtin.template:
+        src: non-validatorlist.txt
+        dest: /etc/edge/non-validatorlist.txt
+        mode: 0700
 
 - name: Build edge binary
   block:
@@ -50,6 +55,9 @@
 
 - name: Bootstrap edge
   ansible.builtin.include_tasks: bootstrap-edge.yml
+
+- name: Bootstrap copy
+  ansible.builtin.include_tasks: bootstrap-copy.yml
 
 - name: Create edge service file
   ansible.builtin.template:
