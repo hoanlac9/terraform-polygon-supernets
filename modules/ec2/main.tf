@@ -6,7 +6,7 @@ resource "tls_private_key" "pk" {
 
 locals {
   devnet_key_name = "${var.base_devnet_key_name}-${var.deployment_name}-${var.network_type}"
-  secret_name     = "${var.deployment_name}-${var.network_type}"
+  secret_name     = "${var.deployment_name}-${var.network_type}-01"
   # Use this for domains / url compatibility
   # base_dn = format("%s.%s.polygon.private", var.deployment_name, var.network_type)
   # Us this for names that don't allow dots and aren't part of a url
