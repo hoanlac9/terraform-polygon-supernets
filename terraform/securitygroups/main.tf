@@ -113,3 +113,23 @@ resource "aws_security_group_rule" "promeheus" {
   security_group_id = aws_security_group.monitoring.id
   description       = "Prometheus"
 }
+
+resource "aws_security_group_rule" "ssm_outbound" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.monitoring.id
+  description       = "ssm"
+}
+
+resource "aws_security_group_rule" "ssm_inbound" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.monitoring.id
+  description       = "ssm"
+}
