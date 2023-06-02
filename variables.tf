@@ -136,6 +136,12 @@ variable "non_validator_count" {
   default     = 1
 }
 
+variable "monitoring_count" {
+  description = "The number of non-validators that we're going to deploy"
+  type        = number
+  default     = 1
+}
+
 variable "zones" {
   description = "The availability zones for deployment"
   type        = list(string)

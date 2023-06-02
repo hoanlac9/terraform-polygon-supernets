@@ -10,6 +10,10 @@ variable "non_validator_count" {
   description = "The number of non-validators that we're going to deploy"
   type        = number
 }
+variable "monitoring_count" {
+  description = "The number of monitoring that we're going to deploy"
+  type        = number
+}
 variable "zones" {
   description = "The zones for deployment"
   type        = list(string)
@@ -23,6 +27,9 @@ variable "validator_instance_ids" {
   type = list(string)
 }
 variable "non_validator_instance_ids" {
+  type = list(string)
+}
+variable "monitoring_instance_ids" {
   type = list(string)
 }
 variable "fullnode_instance_ids" {

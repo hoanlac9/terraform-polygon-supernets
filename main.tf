@@ -29,6 +29,7 @@ module "dns" {
   fullnode_count      = var.fullnode_count
   validator_count     = var.validator_count
   non_validator_count = var.non_validator_count
+  monitoring_count = var.monitoring_count
   geth_count          = var.geth_count
   route53_zone_id     = var.route53_zone_id
   deployment_name     = var.deployment_name
@@ -38,6 +39,7 @@ module "dns" {
   aws_lb_ext_rpc_geth_domain = module.elb.aws_lb_ext_rpc_geth_domain
   validator_private_ips      = module.ec2.validator_private_ips
   non_validator_private_ips  = module.ec2.non_validator_private_ips
+  monitoring_private_ips  = module.ec2.monitoring_private_ips
   fullnode_private_ips       = module.ec2.fullnode_private_ips
   geth_private_ips           = module.ec2.geth_private_ips
 }
@@ -48,10 +50,12 @@ module "ebs" {
   node_storage        = var.node_storage
   validator_count     = var.validator_count
   non_validator_count = var.non_validator_count
+  monitoring_count = var.monitoring_count
   fullnode_count      = var.fullnode_count
 
   validator_instance_ids     = module.ec2.validator_instance_ids
   non_validator_instance_ids = module.ec2.non_validator_instance_ids
+  monitoring_instance_ids = module.ec2.monitoring_instance_ids
   fullnode_instance_ids      = module.ec2.fullnode_instance_ids
 }
 
@@ -64,6 +68,7 @@ module "ec2" {
   geth_count           = var.geth_count
   validator_count      = var.validator_count
   non_validator_count  = var.non_validator_count
+  monitoring_count  = var.monitoring_count
   base_devnet_key_name = format("%s_ssh_key", var.deployment_name)
   private_network_mode = var.private_network_mode
   network_type         = local.network_type
@@ -120,6 +125,7 @@ module "securitygroups" {
   devnet_id                                   = module.networking.devnet_id
   validator_primary_network_interface_ids     = module.ec2.validator_primary_network_interface_ids
   non_validator_primary_network_interface_ids = module.ec2.non_validator_primary_network_interface_ids
+  monitoring_primary_network_interface_ids = module.ec2.monitoring_primary_network_interface_ids
   fullnode_primary_network_interface_ids      = module.ec2.fullnode_primary_network_interface_ids
   geth_primary_network_interface_ids          = module.ec2.geth_primary_network_interface_ids
   geth_count                                  = var.geth_count

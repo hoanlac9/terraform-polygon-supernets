@@ -93,4 +93,3 @@ resource "aws_route_table_association" "private" {
   subnet_id      = element(aws_subnet.devnet_private, count.index).id
   route_table_id = element(aws_route_table.devnet_private, count.index).id
 }
-

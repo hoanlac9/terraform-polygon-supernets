@@ -60,6 +60,7 @@ resource "aws_network_interface_sg_attachment" "open_rpc" {
   security_group_id    = aws_security_group.open_rpc.id
   network_interface_id = local.p2p_primary_network_interface_ids[count.index]
 }
+
 resource "aws_security_group" "open_http" {
   name        = "external-explorer-access"
   description = "Allowing explorer acccess"
@@ -91,4 +92,24 @@ resource "aws_network_interface_sg_attachment" "open_rpc_geth" {
   count                = var.geth_count
   security_group_id    = aws_security_group.open_rpc_geth.id
   network_interface_id = element(var.geth_primary_network_interface_ids, count.index)
+}
+
+resource "aws_security_group" "monitoring" {
+  name        = "monitoring-sg"
+  description = "configuration for monitoring tools access"
+  vpc_id      = var.devnet_id
+}
+resource "aws_network_interface_sg_attachment" "monitoring" {
+  count                = var.geth_count
+  security_group_id    = aws_security_group.monitoring.id
+  network_interface_id = element(var.monitoring_primary_network_interface_ids, count.index)
+}
+resource "aws_security_group_rule" "promeheus" {
+  type              = "ingress"
+  from_port         = 9090
+  to_port           = 9090
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.monitoring.id
+  description       = "Prometheus"
 }

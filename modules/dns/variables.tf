@@ -26,6 +26,10 @@ variable "non_validator_count" {
   description = "The number of non-validators that we're going to deploy"
   type        = number
 }
+variable "monitoring_count" {
+  description = "The number of non-validators that we're going to deploy"
+  type        = number
+}
 variable "geth_count" {
   description = "The number of geth that we're going to deploy"
   type        = number
@@ -39,6 +43,9 @@ variable "validator_private_ips" {
   type = list(string)
 }
 variable "non_validator_private_ips" {
+  type = list(string)
+}
+variable "monitoring_private_ips" {
   type = list(string)
 }
 variable "fullnode_private_ips" {

@@ -27,6 +27,9 @@ variable "validator_primary_network_interface_ids" {
 variable "non_validator_primary_network_interface_ids" {
   type = list(string)
 }
+variable "monitoring_primary_network_interface_ids" {
+  type = list(string)
+}
 variable "fullnode_primary_network_interface_ids" {
   type = list(string)
 }
