@@ -68,6 +68,23 @@ resource "aws_route53_record" "monitoring_reverse" {
   name    = join(".", reverse(split(".", element(var.monitoring_private_ips, count.index))))
 }
 
+resource "aws_route53_record" "explorer" {
+  count   = var.explorer_count
+  zone_id = aws_route53_zone.private_zone.zone_id
+  name    = format("explorer-%03d.%s", count.index + 1, var.base_dn)
+  type    = "A"
+  ttl     = "60"
+  records = [element(var.explorer_private_ips, count.index)]
+}
+resource "aws_route53_record" "explorer_reverse" {
+  count   = var.explorer_count
+  zone_id = aws_route53_zone.reverse_zone.zone_id
+  records = [format("explorer-%03d.%s", count.index + 1, var.base_dn)]
+  type    = "PTR"
+  ttl     = "60"
+  name    = join(".", reverse(split(".", element(var.explorer_private_ips, count.index))))
+}
+
 resource "aws_route53_record" "fullnode_private" {
   count   = var.fullnode_count
   zone_id = aws_route53_zone.private_zone.zone_id

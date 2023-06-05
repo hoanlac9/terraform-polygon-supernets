@@ -27,6 +27,10 @@ variable "monitoring_count" {
   description = "The number of non-validators that we're going to deploy"
   type        = number
 }
+variable "explorer_count" {
+  description = "The number of non-validators that we're going to deploy"
+  type        = number
+}
 variable "private_network_mode" {
   description = "True if vms should bey default run in the private subnets"
   type        = bool

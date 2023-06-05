@@ -133,3 +133,34 @@ resource "aws_security_group_rule" "ssm_inbound" {
   security_group_id = aws_security_group.monitoring.id
   description       = "ssm"
 }
+
+resource "aws_security_group" "explorer" {
+  name        = "explorer-sg"
+  description = "configuration for explorer tools access"
+  vpc_id      = var.devnet_id
+}
+resource "aws_network_interface_sg_attachment" "explorer" {
+  count                = var.geth_count
+  security_group_id    = aws_security_group.explorer.id
+  network_interface_id = element(var.explorer_primary_network_interface_ids, count.index)
+}
+
+resource "aws_security_group_rule" "explorer_outbound" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.explorer.id
+  description       = "ssm"
+}
+
+resource "aws_security_group_rule" "explorer_inbound" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = -1
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.explorer.id
+  description       = "ssm"
+}

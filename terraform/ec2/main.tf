@@ -52,6 +52,14 @@ resource "aws_network_interface" "monitoring_private" {
     Name = format("monitoring-private-%03d.%s", count.index + 1, var.base_dn)
   }
 }
+resource "aws_network_interface" "explorer_private" {
+  count     = var.explorer_count
+  subnet_id = var.devnet_public_subnet_ids[count.index]
+
+  tags = {
+    Name = format("explorer-private-%03d.%s", count.index + 1, var.base_dn)
+  }
+}
 
 resource "aws_network_interface" "fullnode_private" {
   count     = var.fullnode_count
@@ -146,6 +154,36 @@ resource "aws_instance" "monitoring" {
     Name     = format("monitoring-%03d.%s", count.index + 1, var.base_dn)
     Hostname = format("monitoring-%03d", count.index + 1)
     Role     = "monitoring"
+  }
+}
+
+resource "aws_eip" "explorer" {
+  count     = var.explorer_count
+  instance =  aws_instance.explorer[count.index].id
+  domain   = "vpc"
+}
+resource "aws_instance" "explorer" {
+  ami                  = var.base_ami
+  instance_type        = var.base_instance_type
+  count                = var.explorer_count
+  key_name             = aws_key_pair.devnet.key_name
+  iam_instance_profile = var.ec2_profile_name
+
+  root_block_device {
+    delete_on_termination = true
+    volume_size           = 30
+    volume_type           = "gp2"
+  }
+
+  network_interface {
+    network_interface_id = element(aws_network_interface.explorer_private, count.index).id
+    device_index         = 0
+  }
+
+  tags = {
+    Name     = format("explorer-%03d.%s", count.index + 1, var.base_dn)
+    Hostname = format("explorer-%03d", count.index + 1)
+    Role     = "explorer"
   }
 }
 

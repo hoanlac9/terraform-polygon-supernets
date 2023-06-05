@@ -16,6 +16,12 @@ resource "aws_ebs_volume" "monitoring" {
   size              = var.node_storage
   type              = "gp3"
 }
+resource "aws_ebs_volume" "explorer" {
+  count             = var.explorer_count
+  availability_zone = element(var.zones, count.index)
+  size              = var.node_storage
+  type              = "gp3"
+}
 resource "aws_volume_attachment" "validator" {
   count       = var.validator_count
   device_name = "/dev/sdf"
@@ -33,6 +39,12 @@ resource "aws_volume_attachment" "monitoring" {
   device_name = "/dev/sdf"
   volume_id   = element(aws_ebs_volume.monitoring, count.index).id
   instance_id = element(var.monitoring_instance_ids, count.index)
+}
+resource "aws_volume_attachment" "explorer" {
+  count       = var.explorer_count
+  device_name = "/dev/sdf"
+  volume_id   = element(aws_ebs_volume.explorer, count.index).id
+  instance_id = element(var.explorer_instance_ids, count.index)
 }
 resource "aws_ebs_volume" "fullnode" {
   count             = var.fullnode_count

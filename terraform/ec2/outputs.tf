@@ -11,7 +11,9 @@ output "non_validator_private_ips" {
 output "monitoring_private_ips" {
   value = aws_network_interface.monitoring_private.*.private_ip
 }
-
+output "explorer_private_ips" {
+  value = aws_network_interface.explorer_private.*.private_ip
+}
 output "fullnode_private_ips" {
   value = aws_network_interface.fullnode_private.*.private_ip
 }
@@ -33,6 +35,9 @@ output "non_validator_instance_ids" {
 output "monitoring_instance_ids" {
   value = aws_instance.monitoring.*.id
 }
+output "explorer_instance_ids" {
+  value = aws_instance.explorer.*.id
+}
 
 output "geth_instance_ids" {
   value = aws_instance.geth.*.id
@@ -46,6 +51,9 @@ output "non_validator_primary_network_interface_ids" {
 }
 output "monitoring_primary_network_interface_ids" {
   value = aws_instance.monitoring.*.primary_network_interface_id
+}
+output "explorer_primary_network_interface_ids" {
+  value = aws_instance.explorer.*.primary_network_interface_id
 }
 output "fullnode_primary_network_interface_ids" {
   value = aws_instance.fullnode.*.primary_network_interface_id

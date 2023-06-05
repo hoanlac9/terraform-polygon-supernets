@@ -23,13 +23,14 @@ terraform {
 }
 
 module "dns" {
-  source              = "./modules/dns"
+  source              = "./terraform/dns"
   base_dn             = local.base_dn
   region              = var.region
   fullnode_count      = var.fullnode_count
   validator_count     = var.validator_count
   non_validator_count = var.non_validator_count
   monitoring_count = var.monitoring_count
+  explorer_count = var.explorer_count
   geth_count          = var.geth_count
   route53_zone_id     = var.route53_zone_id
   deployment_name     = var.deployment_name
@@ -40,27 +41,30 @@ module "dns" {
   validator_private_ips      = module.ec2.validator_private_ips
   non_validator_private_ips  = module.ec2.non_validator_private_ips
   monitoring_private_ips  = module.ec2.monitoring_private_ips
+  explorer_private_ips  = module.ec2.explorer_private_ips
   fullnode_private_ips       = module.ec2.fullnode_private_ips
   geth_private_ips           = module.ec2.geth_private_ips
 }
 
 module "ebs" {
-  source              = "./modules/ebs"
+  source              = "./terraform/ebs"
   zones               = local.default_zones
   node_storage        = var.node_storage
   validator_count     = var.validator_count
   non_validator_count = var.non_validator_count
   monitoring_count = var.monitoring_count
+  explorer_count = var.explorer_count
   fullnode_count      = var.fullnode_count
 
   validator_instance_ids     = module.ec2.validator_instance_ids
   non_validator_instance_ids = module.ec2.non_validator_instance_ids
   monitoring_instance_ids = module.ec2.monitoring_instance_ids
+  explorer_instance_ids = module.ec2.explorer_instance_ids
   fullnode_instance_ids      = module.ec2.fullnode_instance_ids
 }
 
 module "ec2" {
-  source               = "./modules/ec2"
+  source               = "./terraform/ec2"
   base_dn              = local.base_dn
   base_instance_type   = var.base_instance_type
   base_ami             = local.base_ami
@@ -69,6 +73,7 @@ module "ec2" {
   validator_count      = var.validator_count
   non_validator_count  = var.non_validator_count
   monitoring_count  = var.monitoring_count
+  explorer_count  = var.explorer_count
   base_devnet_key_name = format("%s_ssh_key", var.deployment_name)
   private_network_mode = var.private_network_mode
   network_type         = local.network_type
@@ -82,7 +87,7 @@ module "ec2" {
 }
 
 module "elb" {
-  source             = "./modules/elb"
+  source             = "./terraform/elb"
   http_rpc_port      = var.http_rpc_port
   rootchain_rpc_port = var.rootchain_rpc_port
   fullnode_count     = var.fullnode_count
@@ -103,7 +108,7 @@ module "elb" {
 }
 
 module "networking" {
-  source                = "./modules/networking"
+  source                = "./terraform/networking"
   base_dn               = local.base_dn
   devnet_vpc_block      = var.devnet_vpc_block
   devnet_public_subnet  = var.devnet_public_subnet
@@ -112,7 +117,7 @@ module "networking" {
 }
 
 module "securitygroups" {
-  source = "./modules/securitygroups"
+  source = "./terraform/securitygroups"
   depends_on = [
     module.networking
   ]
@@ -126,13 +131,14 @@ module "securitygroups" {
   validator_primary_network_interface_ids     = module.ec2.validator_primary_network_interface_ids
   non_validator_primary_network_interface_ids = module.ec2.non_validator_primary_network_interface_ids
   monitoring_primary_network_interface_ids = module.ec2.monitoring_primary_network_interface_ids
+  explorer_primary_network_interface_ids = module.ec2.explorer_primary_network_interface_ids
   fullnode_primary_network_interface_ids      = module.ec2.fullnode_primary_network_interface_ids
   geth_primary_network_interface_ids          = module.ec2.geth_primary_network_interface_ids
   geth_count                                  = var.geth_count
 }
 
 module "ssm" {
-  source          = "./modules/ssm"
+  source          = "./terraform/ssm"
   base_dn         = local.base_dn
   deployment_name = var.deployment_name
   network_type    = local.network_type
