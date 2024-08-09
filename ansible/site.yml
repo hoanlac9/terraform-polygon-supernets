@@ -20,7 +20,7 @@
   roles:
     - rootchain-server
 
-- hosts: fullnode:validator
+- hosts: fullnode:validator:non_validator
   become: true
   tags:
     - edge
@@ -28,10 +28,27 @@
     - mounted-storage
     - edge
 
-- hosts: fullnode:validator
+- hosts: fullnode:validator:non_validator
   become: true
   tags:
     - haproxy
   roles:
     - haproxy
 
+- hosts: monitoring
+  become: true
+  tags:
+    - monitoring
+    - prometheus
+  roles:
+    - docker
+    - prometheus
+
+- hosts: all
+  become: true
+  tags:
+    - monitoring
+    - metric-exporters
+  roles:
+    - docker
+    - metrics

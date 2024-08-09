@@ -1,5 +1,5 @@
 ---
-clean_deploy_title: devnet13
+clean_deploy_title: k1dev
 
 block_gas_limit: 50_000_000
 block_time: 5
@@ -40,7 +40,7 @@ enable_eip_1559: false
 # The flag for your custom native token config
 native_token_config: MyToken:MTK:18 # configuration of native token in format <name:symbol:decimals count:mintable flag>
 
-ansible_ssh_private_key_file: ~/devnet_private.key
+ansible_ssh_private_key_file: .././k1_private.key
 ansible_ssh_common_args: >
   -o IdentitiesOnly=yes
   -o StrictHostKeyChecking=no
